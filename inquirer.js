@@ -1,5 +1,6 @@
-const inquirer = {}
-const { getAllEmployees, addEmployee, getAllDepartments } = require("./queries");
+const inquirer = require('inquirer');
+// const { getAllEmployees, addEmployee, getAllDepartments } = require("./queries");
+const db = require("./queries");
 
 const menuOptions = [
     "View all departments",
@@ -19,22 +20,41 @@ async function start(){
         choices: menuOptions
     }
     ])
-
-    if( result.menuOptions === "View all departments" ){
+    if( result.menuOptions === "View all exmployees" ){
         displayEmployees()
+    }
+    if( result.menuOptions === "View all departments" ){
+        displayDepartments()
+    }
+    if( result.menuOptions === "View all role" ){
+        displayRoles()
+    }
+    if( result.menuOptions === "Add a department" ){
+        addDepartment()
+    }
+    if( result.menuOptions === "Add a role" ){
+        addRole()
+    }
+    if( result.menuOptions === "Add an employee" ){
+        addEmployee()
+    }
+    if( result.menuOptions === "Update an employee role" ){
+        updateEmployeeRole()
     }
 }
 
 async function displayEmployees(){
-    const data = await getAllEmployees()
+    const data = await db.getAllEmployees()
+    console.tanle(data)
     start()
 }
 
 async function addEmployee(){
-    const listOfDepartments = getAllDepartments().map( department => {
+    const listOfDepartments = db.getAllDepartments().map( department => ({
         name: department_name,
-        value: department_id
-    }),
+        value: department.id
+    }))
+
     const result = await inquirer.prompt([
     {
         type: "input",
@@ -57,6 +77,33 @@ async function addEmployee(){
         choices: listOfDepartments
     }
     ])
-    addEmployee(result)
+    // addEmployee(result)
+    start()
+}
+
+async function addRole(){
+    const listOfDepartments = db.getAllDepartments().map( department => ({
+        name: department_name,
+        value: department.id
+    }))
+
+    const result = await inquirer.prompt([
+    {
+        type: "input",
+        name: "title",
+        message: "what is the title of the role?"
+    },
+    {
+        type: "input",
+        name: "salary",
+        message: "what is the salary of the role?"
+    },
+    {
+        type: "list",
+        name: "department",
+        choices: listOfDepartments
+    }
+    ])
+    db.addRole(result.title,result.salary,result.department)
     start()
 }
