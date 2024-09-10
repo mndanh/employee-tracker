@@ -42,6 +42,6 @@ Tests can be run through Jest.
 
 ## Questions
 
-[Click here to view my project on GitHub:](https://www.github.com/mndanh)
+[Click here to view my project on GitHub:](https://github.com/mndanh/employee-tracker)
 
 [Contact me with any questions or input you may have:](mndanh@gmail.com)
